@@ -1,14 +1,5 @@
--- Assuming the table name is `metal_bands` and the columns are `band_name`, `style`, `formed`, `split`
-
--- Compute lifespan as (2022 - formed) and select bands with 'Glam rock' as their main style
-SELECT
-    band_name,
-    (2022 - formed) AS lifespan
-FROM
-    metal_bands
-WHERE
-    style = 'Glam rock'
-    AND split IS NOT NULL -- Ensure that the band has a split date if applicable
-ORDER BY
-    lifespan DESC;
-
+-- This SQL script select band_name, and lifespan column which is difference
+SELECT band_name, (IFNULL(split, '2020') - formed) AS lifespan
+    FROM metal_bands
+    WHERE FIND_IN_SET('Glam rock', IFNULL(style, "")) > 0
+    ORDER BY lifespan DESC;
